@@ -1,0 +1,27 @@
+{
+  "name": "contract-sandbox",
+  "version": "1.0.0",
+  "author": "Hadrien Croubois (@Amxx)",
+  "description": "",
+  "license": "MIT",
+  "main": "hardhat.config.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.0.0",
+    "@openzeppelin/contracts-upgradeable": "^4.0.0",
+    "@openzeppelin/hardhat-upgrades": "file:../openzeppelin-upgrades/packages/plugin-hardhat/openzeppelin-hardhat-upgrades-v1.6.0.tgz",
+    "@openzeppelin/upgrades-core": "file:../openzeppelin-upgrades/packages/core/openzeppelin-upgrades-core-v1.6.0.tgz"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "chai": "^4.3.4",
+    "dotenv": "^8.2.0",
+    "ethereum-waffle": "^3.3.0",
+    "ethers": "^5.0.32",
+    "hardhat": "^2.1.1"
+  }
+}

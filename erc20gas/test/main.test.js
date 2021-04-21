@@ -58,7 +58,7 @@ describe('GasUsage', async function() {
     this.report = [];
   });
   describe('without delegate', async function () {
-    for (const flavor of ['ERC20Mock', 'ERC20SnapshotEveryBlockMock', 'ERC20CompMock']) {
+    for (const flavor of ['ERC20Mock', 'ERC20SnapshotEveryBlockMock', 'ERC20VotesMock']) {
       measure(
         flavor,
         (admin) => deploy(flavor, 'name', 'symbol'),
@@ -76,8 +76,8 @@ describe('GasUsage', async function() {
 
   describe('with delegate', async function () {
     measure(
-      'ERC20CompMock-delegated',
-      (admin) => deploy('ERC20CompMock', 'name', 'symbol'),
+      'ERC20VotesMock-delegated',
+      (admin) => deploy('ERC20VotesMock', 'name', 'symbol'),
       {
         mint: (token, to, value) => token.mint(to, value),
         before: (token, account) => token.connect(account).delegate(account.address),

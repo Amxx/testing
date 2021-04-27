@@ -20,6 +20,17 @@ async function _measure(token, accounts, opts = {}) {
   return [mint,transfer, empty];
 }
 
+const OPERATION =[
+  'mint',
+  'transfer',
+  'empty',
+];
+const STATE = [
+  'clean',
+  'dirty',
+]
+const COLUMNS = [].concat(...STATE.map(a => OPERATION.map(b => [].concat(a, b)))).map(([state, operation]) => `${operation} (${state})`);
+
 async function measure(name, deploy, opts = {}) {
   describe(name, function () {
     before(function () {
@@ -47,7 +58,7 @@ async function measure(name, deploy, opts = {}) {
       }));
     });
     after(function () {
-      this.report.push(`| ${name.padEnd(30)} | ${this.results.map(value => value.padStart(6)).join(' | ')} |`);
+      this.report.push({ name, values: this.results });
     });
   });
 }
@@ -58,7 +69,7 @@ describe('GasUsage', async function() {
     this.report = [];
   });
   describe('without delegate', async function () {
-    for (const flavor of ['ERC20Mock', 'ERC20SnapshotEveryBlockMock', 'ERC20VotesMock']) {
+    for (const flavor of ['ERC20Mock', 'ERC20SnapshotEveryBlockMock', 'ERC20VotesMock', 'ERC20VotesLightMock']) {
       measure(
         flavor,
         (admin) => deploy(flavor, 'name', 'symbol'),
@@ -84,6 +95,14 @@ describe('GasUsage', async function() {
       },
     );
     measure(
+      'ERC20VotesLightMock-delegated',
+      (admin) => deploy('ERC20VotesLightMock', 'name', 'symbol'),
+      {
+        mint: (token, to, value) => token.mint(to, value),
+        before: (token, account) => token.connect(account).delegate(account.address),
+      },
+    );
+    measure(
       'Comp-delegated',
       (admin) => deploy('Comp', admin.address),
       {
@@ -93,9 +112,11 @@ describe('GasUsage', async function() {
     );
   });
   after(function () {
-    console.log('| Description | mint (clean) | transfer (clean) | empty (clean) | mint (dirty) | transfer (dirty) | empty (dirty) |');
+    console.log(`| Description | ${COLUMNS.filter((_, i) => i % 3 != 0).join(' | ')} |`);
     console.log('|-|-:|-:|-:|-:|-:|-:|');
-    this.report.forEach(line => console.log(line));
+    this.report.forEach(({ name, values }) =>
+      console.log(`| ${name.padEnd(30)} | ${values.filter((_, i) => i % 3 != 0).map(value => value.padStart(6)).join(' | ')} |`)
+    );
   });
 });
 

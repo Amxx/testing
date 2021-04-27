@@ -12,8 +12,8 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.0.0",
     "@openzeppelin/contracts-upgradeable": "^4.0.0",
-    "@openzeppelin/hardhat-upgrades": "file:../openzeppelin-upgrades/packages/plugin-hardhat/openzeppelin-hardhat-upgrades-v1.6.0.tgz",
-    "@openzeppelin/upgrades-core": "file:../openzeppelin-upgrades/packages/core/openzeppelin-upgrades-core-v1.6.0.tgz"
+    "@openzeppelin/hardhat-upgrades": "file:../../openzeppelin-upgrades/packages/plugin-hardhat/openzeppelin-hardhat-upgrades-v1.6.0.tgz",
+    "@openzeppelin/upgrades-core": "file:../../openzeppelin-upgrades/packages/core/openzeppelin-upgrades-core-v1.6.0.tgz"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
